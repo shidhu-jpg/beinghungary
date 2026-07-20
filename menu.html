@@ -387,79 +387,129 @@ const WA = '919XXXXXXXXX';
 
 /* ─── MENU DATA ─── */
 const CATS = [
-  {key:'momos',    label:'Momos',      img:'images/momo4.jpeg',   sub:'Steam · Fry · Chilli',        count:8},
-  {key:'rolls',    label:'Rolls',       img:'images/rool.jpeg',    sub:'Veg · Paneer · Chicken · Tikka', count:10},
-  {key:'burgers',  label:'Burgers',     img:'images/burger.jpeg',  sub:'Veg · Aloo Tikki · Chicken',  count:4},
-  {key:'friedrice',label:'Fried Rice',  img:'images/fryrice.jpeg', sub:'Veg · Egg · Chicken · Mixed', count:6},
-  {key:'chinese',  label:'Chinese',     img:'images/chowemin.jpeg',sub:'Manchurian · Chilli · Noodles',count:12},
-  {key:'chowmein', label:'Chowmein',    img:'images/chowemin.jpeg',sub:'Veg · Chicken · Schezwan',    count:4},
-  {key:'maggi',    label:'Maggi',       img:'images/maggie.jpeg',  sub:'Plain · Veg · Masala · Cheese',count:4},
+  {key:'noodles',  label:'Noodles',     img:'images/chowemin.jpeg',sub:'Veg · Paneer · Egg · Chicken', count:6},
+  {key:'rolls',    label:'Rolls',       img:'images/rool.jpeg',    sub:'Veg · Paneer · Chicken · Egg', count:10},
+  {key:'burgers',  label:'Burgers',     img:'images/burger.jpeg',  sub:'Aloo Tikki · Paneer · Chicken', count:7},
+  {key:'friedrice',label:'Fried Rice',  img:'images/fryrice.jpeg', sub:'Veg · Egg · Chicken · Biryani', count:6},
+  {key:'chinese',  label:'Chinese',     img:'images/chowemin.jpeg',sub:'Manchurian · Chilli · Pakoda', count:13},
+  {key:'momos',    label:'Momos',       img:'images/momo4.jpeg',   sub:'Steam · Fry · Afghani · Kurkure', count:8},
+  {key:'maggi',    label:'Maggi',       img:'images/maggie.jpeg',  sub:'Deshi · Butter · Cheese · Paneer', count:4},
+  {key:'indian',   label:'Indian',      img:'images/burger.jpeg',  sub:'Paneer · Biryani · Roti · Rice', count:10},
+  {key:'soup',     label:'Soup',        img:'images/soup.png',     sub:'Tomato · Hot & Sour · Manchow', count:3},
+  {key:'beverages',label:'Beverages',   img:'images/beveragess.png',sub:'Coffee · Shakes · Cold Drinks', count:6},
 ];
 
 const MENU = {
-  momos:{label:'Momos',items:[
-    {id:'momo-vs',name:'Veg Steam Momo',desc:'Soft steamed dumplings with spiced vegetable filling',veg:true,half:60,full:110,tags:['bestseller']},
-    {id:'momo-vf',name:'Veg Fried Momo',desc:'Crispy pan-fried momos with vegetable stuffing',veg:true,half:70,full:120,tags:[]},
-    {id:'momo-cs',name:'Chicken Steam Momo',desc:'Juicy chicken filling in soft steamed dumplings',veg:false,half:70,full:130,tags:['bestseller']},
-    {id:'momo-cf',name:'Chicken Fried Momo',desc:'Crispy fried momos packed with spiced chicken',veg:false,half:80,full:140,tags:[]},
-    {id:'momo-ps',name:'Paneer Steam Momo',desc:'Soft steamed momos with paneer & spice filling',veg:true,half:70,full:125,tags:[]},
-    {id:'momo-pf',name:'Paneer Fried Momo',desc:'Fried momos stuffed with delicious paneer mix',veg:true,half:80,full:135,tags:[]},
-    {id:'momo-vc',name:'Veg Chilli Momo',desc:'Crispy momos tossed in spicy chilli sauce',veg:true,half:80,full:140,tags:['spicy']},
-    {id:'momo-cc',name:'Chicken Chilli Momo',desc:'Chicken momos in fiery chilli garlic sauce',veg:false,half:90,full:160,tags:['spicy','bestseller']},
+  noodles:{label:'Noodles',items:[
+    {id:'nod-v',name:'Veg Noodles',desc:'Classic Hakka noodles with fresh vegetables',veg:true,price:80,tags:[]},
+    {id:'nod-p',name:'Paneer Noodles',desc:'Noodles tossed with soft paneer cubes & veggies',veg:true,price:110,tags:[]},
+    {id:'nod-e',name:'Egg Noodles',desc:'Stir-fried noodles with scrambled egg & vegetables',veg:false,price:100,tags:[]},
+    {id:'nod-vh',name:'Veg Hakka Noodles',desc:'Authentic Hakka style noodles with soy & veggies',veg:true,price:100,tags:[]},
+    {id:'nod-c',name:'Chicken Noodles',desc:'Noodles with spiced chicken strips & bell peppers',veg:false,price:140,tags:['bestseller']},
+    {id:'nod-cg',name:'Chilly Garlic Noodles',desc:'Fiery noodles with chilli, garlic & spring onions',veg:true,price:110,tags:['spicy']},
   ]},
   rolls:{label:'Rolls',items:[
-    {id:'roll-v', name:'Veg Roll',desc:'Fresh paratha roll with mixed vegetable filling',veg:true,price:60,tags:[]},
-    {id:'roll-p', name:'Paneer Roll',desc:'Soft paneer cubes with onion & chutney in a roll',veg:true,price:70,tags:[]},
-    {id:'roll-ch',name:'Chicken Roll',desc:'Spiced chicken filling wrapped in crispy paratha',veg:false,price:80,tags:['bestseller']},
-    {id:'roll-e', name:'Egg Roll',desc:'Classic egg roll with fresh veggies & sauce',veg:false,price:70,tags:[]},
-    {id:'roll-ce',name:'Chicken Egg Roll',desc:'Double protein — chicken and egg in one roll',veg:false,price:90,tags:[]},
-    {id:'roll-pt',name:'Paneer Tikka Roll',desc:'Marinated paneer tikka with mint chutney & onion',veg:true,price:90,tags:['bestseller']},
-    {id:'roll-ct',name:'Chicken Tikka Roll',desc:'Tandoori chicken tikka wrapped in fresh paratha',veg:false,price:100,tags:['spicy']},
-    {id:'roll-m', name:'Mushroom Roll',desc:'Sautéed mushroom with herbs and mayo in a roll',veg:true,price:80,tags:['new']},
-    {id:'roll-mx',name:'Mixed Roll',desc:'Combo of veg & chicken with special sauce',veg:false,price:95,tags:[]},
-    {id:'roll-cs',name:'Cheese Roll',desc:'Veg roll loaded with melted cheese',veg:true,price:80,tags:['new']},
+    {id:'rol-se',name:'Single Egg Roll',desc:'Crispy paratha with one egg & fresh veggies',veg:false,price:30,tags:[]},
+    {id:'rol-de',name:'Double Egg Roll',desc:'Double egg stuffed in buttery layered paratha',veg:false,price:40,tags:[]},
+    {id:'rol-p',name:'Paneer Roll',desc:'Soft paneer with onion, chutney & spices',veg:true,price:70,tags:[]},
+    {id:'rol-ep',name:'Egg Paneer Roll',desc:'Best of both — egg & paneer in one roll',veg:false,price:90,tags:[]},
+    {id:'rol-vn',name:'Veg Noodle Roll',desc:'Noodles wrapped in paratha with chutney',veg:true,price:80,tags:[]},
+    {id:'rol-c',name:'Chicken Roll',desc:'Spiced chicken kebab in crispy laccha paratha',veg:false,price:100,tags:['bestseller']},
+    {id:'rol-ce',name:'Chicken Egg Roll',desc:'Double protein — chicken & egg in one roll',veg:false,price:120,tags:[]},
+    {id:'rol-lp',name:'Laccha Paratha',desc:'Flaky layered paratha — perfect with curry',veg:true,price:25,tags:[]},
+    {id:'rol-pp',name:'Plain Paratha',desc:'Soft whole wheat paratha',veg:true,price:20,tags:[]},
   ]},
   burgers:{label:'Burgers',items:[
-    {id:'burg-v', name:'Veg Burger',desc:'Crispy veggie patty with lettuce, tomato & sauce',veg:true,price:70,tags:[]},
-    {id:'burg-at',name:'Aloo Tikki Burger',desc:'Golden aloo tikki with tangy chutney & fresh veggies',veg:true,price:65,tags:['bestseller']},
-    {id:'burg-ck',name:'Chicken Burger',desc:'Juicy chicken patty with lettuce, cheese & mayo',veg:false,price:100,tags:['bestseller']},
-    {id:'burg-pn',name:'Paneer Burger',desc:'Soft paneer patty with spiced mayo & crispy lettuce',veg:true,price:90,tags:[]},
+    {id:'bur-at',name:'Aloo Tikki Burger',desc:'Crispy aloo tikki with tangy chutney & veggies',veg:true,half:70,full:90,tags:['bestseller']},
+    {id:'bur-pn',name:'Paneer Burger',desc:'Grilled paneer patty with mayo & lettuce',veg:true,half:100,full:120,tags:[]},
+    {id:'bur-ck',name:'Chicken Burger',desc:'Juicy chicken patty with cheese & mayo',veg:false,half:120,full:140,tags:['bestseller']},
+    {id:'bur-bm',name:'Bun Maska',desc:'Buttery soft bun with generous butter spread',veg:true,half:30,full:40,tags:[]},
+    {id:'bur-v',name:'Veg Burger',desc:'Mixed veg patty with sauce & fresh veggies',veg:true,half:90,full:110,tags:[]},
+    {id:'bur-spec',name:'Being Hungry Special Burger',desc:'Our signature loaded burger — double patty & cheese',veg:false,half:140,full:160,tags:['bestseller']},
+    {id:'bur-cr',name:'Crispy Burger',desc:'Extra crispy fried patty with special sauce',veg:false,half:150,full:170,tags:['new']},
   ]},
   friedrice:{label:'Fried Rice',items:[
-    {id:'fr-veg',name:'Veg Fried Rice',desc:'Wok-tossed rice with carrots, beans, peas & soy',veg:true,half:80,full:150,tags:[]},
-    {id:'fr-ck', name:'Chicken Fried Rice',desc:'Rice tossed with tender chicken & veggies',veg:false,half:90,full:170,tags:['bestseller']},
-    {id:'fr-eg', name:'Egg Fried Rice',desc:'Classic egg fried rice with spring onions',veg:false,half:85,full:160,tags:[]},
-    {id:'fr-ce', name:'Chicken Egg Fried Rice',desc:'Double protein fried rice — chicken & egg',veg:false,half:95,full:180,tags:[]},
-    {id:'fr-pn', name:'Paneer Fried Rice',desc:'Fried rice with soft paneer cubes & vegetables',veg:true,half:90,full:165,tags:[]},
-    {id:'fr-mx', name:'Mixed Fried Rice',desc:'The works — veg, egg & chicken all together',veg:false,half:100,full:190,tags:['bestseller']},
+    {id:'fr-v',name:'Veg Fried Rice',desc:'Wok-tossed rice with carrots, beans, peas & soy',veg:true,price:120,tags:[]},
+    {id:'fr-p',name:'Paneer Fried Rice',desc:'Fried rice with soft paneer cubes & vegetables',veg:true,price:140,tags:[]},
+    {id:'fr-e',name:'Egg Fried Rice',desc:'Classic egg fried rice with spring onions',veg:false,price:130,tags:[]},
+    {id:'fr-c',name:'Chicken Fried Rice',desc:'Rice tossed with tender chicken & mixed veggies',veg:false,price:150,tags:['bestseller']},
+    {id:'fr-ce',name:'Chicken Egg Fried Rice',desc:'Double protein — chicken & egg fried rice',veg:false,price:170,tags:[]},
+    {id:'fr-bir',name:'Special Chicken Biryani',desc:'Aromatic basmati biryani with tender chicken',veg:false,price:300,tags:['bestseller']},
   ]},
   chinese:{label:'Chinese',items:[
-    {id:'ch-vmch',name:'Veg Manchurian',desc:'Crispy vegetable balls in tangy Manchurian gravy',veg:true,half:90,full:160,tags:['bestseller']},
-    {id:'ch-cmch',name:'Chicken Manchurian',desc:'Chicken in spicy Manchurian sauce — gravy or dry',veg:false,half:100,full:180,tags:[]},
-    {id:'ch-cpnr',name:'Chilli Paneer',desc:'Crispy paneer cubes in spicy chilli-garlic sauce',veg:true,half:90,full:160,tags:['spicy','bestseller']},
-    {id:'ch-cpot',name:'Chilli Potato',desc:'Crispy potato fingers in fiery chilli sauce',veg:true,half:70,full:130,tags:['spicy']},
-    {id:'ch-cck', name:'Chilli Chicken',desc:'Boneless chicken in a spicy Indo-Chinese sauce',veg:false,half:100,full:185,tags:['spicy']},
-    {id:'ch-vmn', name:'Veg Noodles',desc:'Hakka noodles with fresh vegetables & soy sauce',veg:true,half:80,full:150,tags:[]},
-    {id:'ch-cmn', name:'Chicken Noodles',desc:'Noodles tossed with chicken strips & veggies',veg:false,half:90,full:170,tags:[]},
-    {id:'ch-emn', name:'Egg Noodles',desc:'Classic egg-tossed Hakka noodles',veg:false,half:85,full:160,tags:[]},
-    {id:'ch-szn', name:'Schezwan Noodles',desc:'Fiery Schezwan sauce with noodles & mixed veggies',veg:true,half:90,full:170,tags:['spicy','bestseller']},
-    {id:'ch-spr', name:'Spring Rolls',desc:'Crispy golden rolls stuffed with spiced vegetables',veg:true,price:90,tags:['new']},
-    {id:'ch-hmn', name:'Mixed Noodles',desc:'The ultimate combo — veg, egg & chicken noodles',veg:false,half:100,full:190,tags:[]},
-    {id:'ch-szr', name:'Schezwan Fried Rice',desc:'Spicy Schezwan fried rice — a fan favourite',veg:true,half:90,full:165,tags:['spicy']},
+    {id:'ch-vm',name:'Veg Manchurian',desc:'Crispy vegetable balls in tangy Manchurian gravy',veg:true,price:180,tags:['bestseller']},
+    {id:'ch-pm',name:'Paneer Manchurian',desc:'Paneer cubes in spicy Manchurian sauce',veg:true,price:220,tags:[]},
+    {id:'ch-cm',name:'Chicken Manchurian',desc:'Chicken in spicy Manchurian gravy',veg:false,price:220,tags:[]},
+    {id:'ch-pc',name:'Paneer Chilli',desc:'Crispy paneer in fiery chilli-garlic sauce',veg:true,price:180,tags:['spicy','bestseller']},
+    {id:'ch-cc',name:'Chicken Chilli',desc:'Boneless chicken in spicy Indo-Chinese sauce',veg:false,price:200,tags:['spicy']},
+    {id:'ch-ptc',name:'Potato Chilli',desc:'Crispy potato fingers in chilli sauce',veg:true,price:150,tags:['spicy']},
+    {id:'ch-mc',name:'Mushroom Chilli',desc:'Sautéed mushrooms in spicy chilli sauce',veg:true,price:190,tags:[]},
+    {id:'ch-bc',name:'Baby Corn Chilli',desc:'Crunchy baby corn in spicy sauce',veg:true,price:190,tags:[]},
+    {id:'ch-pp',name:'Paneer Pakoda',desc:'Crispy paneer fritters with chutney',veg:true,price:220,tags:[]},
+    {id:'ch-cpb',name:'Chicken Pakoda (Bone)',desc:'Crispy chicken fritters with bone',veg:false,price:240,tags:[]},
+    {id:'ch-cpbl',name:'Chicken Pakoda (Boneless)',desc:'Boneless crispy chicken fritters',veg:false,price:260,tags:[]},
+    {id:'ch-cl',name:'Chicken Lollipop',desc:'Spicy chicken lollipop — 5 pieces',veg:false,price:280,tags:['bestseller']},
   ]},
-  chowmein:{label:'Chowmein',items:[
-    {id:'cm-v', name:'Veg Chowmein',desc:'Soft noodles with vegetables in light soy-vinegar sauce',veg:true,half:80,full:150,tags:[]},
-    {id:'cm-ck',name:'Chicken Chowmein',desc:'Tender chicken with noodles & crispy veggies',veg:false,half:90,full:165,tags:['bestseller']},
-    {id:'cm-pn',name:'Paneer Chowmein',desc:'Soft paneer cubes tossed with chowmein noodles',veg:true,half:85,full:155,tags:[]},
-    {id:'cm-sz',name:'Schezwan Chowmein',desc:'Spicy Schezwan-sauced chowmein — a must try!',veg:true,half:90,full:165,tags:['spicy','bestseller']},
+  momos:{label:'Momos',items:[
+    {id:'momo-vs',name:'Veg Momo (Steam)',desc:'Soft steamed dumplings with spiced veg filling',veg:true,half:50,full:80,tags:[]},
+    {id:'momo-vf',name:'Veg Momo (Fry)',desc:'Crispy pan-fried momos with veg stuffing',veg:true,half:60,full:90,tags:[]},
+    {id:'momo-ps',name:'Paneer Momo (Steam)',desc:'Steamed momos with paneer & spice filling',veg:true,half:70,full:110,tags:[]},
+    {id:'momo-pf',name:'Paneer Momo (Fry)',desc:'Fried momos stuffed with delicious paneer',veg:true,half:80,full:120,tags:[]},
+    {id:'momo-cs',name:'Chicken Momo (Steam)',desc:'Juicy chicken filling in soft steamed dumplings',veg:false,half:90,full:130,tags:['bestseller']},
+    {id:'momo-cf',name:'Chicken Momo (Fry)',desc:'Crispy fried momos with spiced chicken',veg:false,half:100,full:140,tags:[]},
+    {id:'momo-va',name:'Veg Afghani Momo',desc:'Momos with creamy Afghani sauce',veg:true,half:60,full:110,tags:['new']},
+    {id:'momo-kk',name:'Kurkure Momo',desc:'Extra crispy fried momos with chutney',veg:true,half:70,full:120,tags:['new']},
   ]},
   maggi:{label:'Maggi',items:[
-    {id:'mg-pl',name:'Plain Maggi',desc:'Classic Maggi with the original masala taste',veg:true,price:50,tags:[]},
-    {id:'mg-vg',name:'Veg Maggi',desc:'Maggi loaded with fresh vegetables & spices',veg:true,price:60,tags:['bestseller']},
-    {id:'mg-ms',name:'Masala Maggi',desc:'Extra spicy Maggi with our special masala mix',veg:true,price:65,tags:['spicy']},
-    {id:'mg-cs',name:'Cheese Maggi',desc:'Creamy Maggi with generous melted cheese',veg:true,price:70,tags:['bestseller']},
+    {id:'mg-d',name:'Deshi Maggi',desc:'Maggi with desi tadka & spices',veg:true,price:70,tags:[]},
+    {id:'mg-b',name:'Butter Maggi',desc:'Creamy butter maggi with herbs',veg:true,price:90,tags:[]},
+    {id:'mg-c',name:'Cheese Maggi',desc:'Maggi loaded with melted cheese',veg:true,price:120,tags:['bestseller']},
+    {id:'mg-p',name:'Paneer Maggi',desc:'Maggi with soft paneer cubes & veggies',veg:true,price:150,tags:[]},
+  ]},
+  indian:{label:'Indian',items:[
+    {id:'ind-kp',name:'Kadai Paneer',desc:'Paneer in spicy kadai gravy with bell peppers',veg:true,half:120,full:200,tags:['bestseller']},
+    {id:'ind-mm',name:'Mushroom Masala',desc:'Mushrooms in rich masala gravy',veg:true,half:120,full:230,tags:[]},
+    {id:'ind-pdp',name:'Paneer Do Payaza',desc:'Paneer with double onions in spicy gravy',veg:true,half:130,full:200,tags:[]},
+    {id:'ind-pb',name:'Paneer Bhurji',desc:'Scrambled paneer with spices & onions',veg:true,price:170,tags:[]},
+    {id:'ind-ek',name:'Egg Kadai',desc:'Egg in spicy kadai gravy with onions',veg:false,price:140,tags:[]},
+    {id:'ind-vb',name:'Veg Biryani',desc:'Aromatic rice with mixed vegetables & spices',veg:true,half:120,full:150,tags:[]},
+    {id:'ind-jr',name:'Jeera Rice',desc:'Fragrant rice with cumin seeds',veg:true,price:100,tags:[]},
+    {id:'ind-tr',name:'Tawa Roti',desc:'Soft whole wheat roti cooked on tawa',veg:true,price:15,tags:[]},
+    {id:'ind-br',name:'Butter Roti',desc:'Roti with generous butter spread',veg:true,price:20,tags:[]},
+  ]},
+  soup:{label:'Soup',items:[
+    {id:'soup-ts',name:'Tomato Soup',desc:'Creamy tomato soup with herbs',veg:true,price:150,tags:[]},
+    {id:'soup-hs',name:'Hot & Sour Soup',desc:'Spicy & tangy soup with vegetables',veg:true,price:120,tags:['spicy']},
+    {id:'soup-vm',name:'Veg Manchow Soup',desc:'Noodles in spicy vegetable soup',veg:true,price:110,tags:[]},
+  ]},
+  beverages:{label:'Beverages',items:[
+    {id:'bev-cc',name:'Cold Coffee (with Ice Cream)',desc:'Chilled coffee with vanilla ice cream',veg:true,price:170,tags:['bestseller']},
+    {id:'bev-cp',name:'Plain Cold Coffee',desc:'Classic cold coffee with milk & sugar',veg:true,price:90,tags:[]},
+    {id:'bev-vs',name:'Vanilla Shake',desc:'Creamy vanilla milkshake',veg:true,price:100,tags:[]},
+    {id:'bev-os',name:'Oreo Shake',desc:'Oreo cookies blended with milk & ice cream',veg:true,price:120,tags:['bestseller']},
+    {id:'bev-ms',name:'Mango Shake',desc:'Fresh mango milkshake',veg:true,price:120,tags:[]},
+    {id:'bev-ss',name:'Strawberry Shake',desc:'Creamy strawberry milkshake',veg:true,price:100,tags:[]},
   ]},
 };
+
+/* ─── APPLY PRICE OVERRIDES FROM DASHBOARD ─── */
+(function(){
+  try {
+    const overrides = JSON.parse(localStorage.getItem('bh_prices') || '{}');
+    if(!Object.keys(overrides).length) return;
+    Object.values(MENU).forEach(cat => {
+      cat.items.forEach(item => {
+        const o = overrides[item.id];
+        if(!o) return;
+        if(o.name !== undefined) item.name = o.name;
+        if(o.desc !== undefined) item.desc = o.desc;
+        if(o.half !== undefined) item.half = o.half;
+        if(o.full !== undefined) item.full = o.full;
+        if(o.price !== undefined) item.price = o.price;
+      });
+    });
+  } catch(e){}
+})();
 
 /* ─── STATE ─── */
 let cart = JSON.parse(localStorage.getItem('bh_cart') || '{}');

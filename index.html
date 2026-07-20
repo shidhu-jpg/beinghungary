@@ -738,6 +738,23 @@ const bestsellers = [
   {id:'mg-cs',   name:'Cheese Maggi',          desc:'Classic Maggi loaded with creamy melted cheese',            veg:true,  price:70,           img:'images/maggie.jpeg'},
 ];
 
+/* ── APPLY PRICE OVERRIDES FROM DASHBOARD ── */
+(function(){
+  try {
+    const overrides = JSON.parse(localStorage.getItem('bh_prices') || '{}');
+    if(!Object.keys(overrides).length) return;
+    bestsellers.forEach(item => {
+      const o = overrides[item.id];
+      if(!o) return;
+      if(o.name !== undefined) item.name = o.name;
+      if(o.desc !== undefined) item.desc = o.desc;
+      if(o.half !== undefined) item.half = o.half;
+      if(o.full !== undefined) item.full = o.full;
+      if(o.price !== undefined) item.price = o.price;
+    });
+  } catch(e){}
+})();
+
 const bsGrid = document.getElementById('bsGrid');
 const unavail = JSON.parse(localStorage.getItem('bh_unavail') || '{}');
 let bsCart = JSON.parse(localStorage.getItem('bh_cart') || '{}');

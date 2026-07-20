@@ -134,6 +134,31 @@ td{padding:13px 16px;font-size:13px;color:var(--text);vertical-align:middle}
 .toggle-sw input:checked + .t-slider{background:rgba(37,211,102,.15);border-color:rgba(37,211,102,.45)}
 .toggle-sw input:checked + .t-slider::before{transform:translateX(20px);background:#1a9950}
 
+/* EDIT PRICES */
+.price-item-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;box-shadow:var(--shadow);transition:border-color .2s}
+.price-item-card:hover{border-color:var(--gold)}
+.pi-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.pi-name{font-size:14px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:6px}
+.pi-id{font-size:11px;color:var(--muted);font-weight:400}
+.pi-actions{display:flex;gap:6px}
+.btn-reset{padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;border:1px solid rgba(192,57,43,.25);background:rgba(192,57,43,.06);color:var(--red);cursor:pointer;transition:all .15s}
+.btn-reset:hover{background:rgba(192,57,43,.15)}
+.btn-save-item{padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;border:none;background:var(--gold);color:#fff;cursor:pointer;transition:background .15s}
+.btn-save-item:hover{background:var(--gold2)}
+.pi-fields{display:grid;gap:10px}
+.pi-fields label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:2px;display:block}
+.pi-fields input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--cream2);color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.pi-fields input:focus{border-color:var(--gold)}
+.pi-price-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pi-single-row{display:grid;grid-template-columns:1fr;gap:10px}
+.pi-changed{border-color:var(--gold) !important;background:var(--gold-lt) !important}
+.price-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.price-toolbar h2{font-size:20px;color:var(--dark)}
+.price-count{font-size:13px;color:var(--muted)}
+.btn-reset-all{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid rgba(192,57,43,.25);background:rgba(192,57,43,.06);color:var(--red);cursor:pointer;transition:all .15s}
+.btn-reset-all:hover{background:rgba(192,57,43,.15)}
+.no-changes{font-size:12px;color:var(--muted);text-align:center;padding:8px}
+
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(26,18,9,.5);backdrop-filter:blur(4px);z-index:800;display:none;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
@@ -204,6 +229,7 @@ td{padding:13px 16px;font-size:13px;color:var(--text);vertical-align:middle}
   <button class="tab-btn active" onclick="switchTab('orders',this)"><i class="fa fa-receipt"></i> Orders</button>
   <button class="tab-btn" onclick="switchTab('offers',this)"><i class="fa fa-tag"></i> Offers & Deals</button>
   <button class="tab-btn" onclick="switchTab('menu',this)"><i class="fa fa-utensils"></i> Menu Manager</button>
+  <button class="tab-btn" onclick="switchTab('prices',this)"><i class="fa fa-tag"></i> Edit Prices</button>
 </div>
 
 <!-- ORDERS -->
@@ -254,6 +280,25 @@ td{padding:13px 16px;font-size:13px;color:var(--text);vertical-align:middle}
     <input type="text" placeholder="Search menu items..." oninput="renderMenu(this.value)">
   </div>
   <div id="menuArea"></div>
+</div>
+
+<!-- EDIT PRICES -->
+<div class="tab-content" id="tab-prices">
+  <div class="price-toolbar">
+    <div>
+      <h2>Edit Menu Prices</h2>
+      <div class="price-count" id="priceCount"></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn-reset-all" onclick="resetAllPrices()"><i class="fa fa-undo"></i> Reset All to Default</button>
+      <button class="btn-gold" onclick="saveAllPrices()"><i class="fa fa-save"></i> Save All Changes</button>
+    </div>
+  </div>
+  <div class="menu-search-bar">
+    <i class="fa fa-search" style="color:var(--muted);font-size:13px"></i>
+    <input type="text" placeholder="Search items to edit..." oninput="renderPriceEditor(this.value)">
+  </div>
+  <div id="priceEditorArea"></div>
 </div>
 
 <!-- OFFER MODAL -->
@@ -534,6 +579,124 @@ function toggleItem(id, avail){
   toast(avail ? 'Item enabled on menu' : 'Item hidden from customers');
 }
 
+/* EDIT PRICES */
+let priceOverrides = JSON.parse(localStorage.getItem('bh_prices') || '{}');
+
+function getOriginalPrice(item){
+  if(item.half !== undefined) return {half:item.half, full:item.full};
+  return {price:item.price};
+}
+
+function renderPriceEditor(q=''){
+  const area = document.getElementById('priceEditorArea');
+  area.innerHTML = '';
+  let total=0, changed=0;
+  Object.entries(ALL).forEach(([cat,items])=>{
+    const filtered = q ? items.filter(i=>i.name.toLowerCase().includes(q.toLowerCase())) : items;
+    if(!filtered.length) return;
+    const sec = document.createElement('div');
+    sec.className = 'menu-cat-section';
+    sec.innerHTML = '<div class="menu-cat-label">'+cat+'</div>';
+    filtered.forEach(item=>{
+      total++;
+      const over = priceOverrides[item.id] || {};
+      const orig = getOriginalPrice(item);
+      const isDual = item.half !== undefined || (over.half !== undefined);
+      const curName = over.name !== undefined ? over.name : item.name;
+      const curDesc = over.desc !== undefined ? over.desc : (item.desc||'');
+      const isChanged = !!priceOverrides[item.id];
+      if(isChanged) changed++;
+      const card = document.createElement('div');
+      card.className = 'price-item-card' + (isChanged ? ' pi-changed' : '');
+      card.id = 'pic-'+item.id;
+      let fieldsHTML = '';
+      if(isDual){
+        const h = over.half !== undefined ? over.half : (orig.half||0);
+        const f = over.full !== undefined ? over.full : (orig.full||0);
+        fieldsHTML = `
+          <div class="pi-fields">
+            <div><label>Item Name</label><input type="text" value="${curName.replace(/"/g,'&quot;')}" data-field="name"></div>
+            <div><label>Description</label><input type="text" value="${curDesc.replace(/"/g,'&quot;')}" data-field="desc"></div>
+            <div class="pi-price-row">
+              <div><label>Half Price (\u20B9)</label><input type="number" min="0" value="${h}" data-field="half"></div>
+              <div><label>Full Price (\u20B9)</label><input type="number" min="0" value="${f}" data-field="full"></div>
+            </div>
+          </div>`;
+      } else {
+        const p = over.price !== undefined ? over.price : (orig.price||0);
+        fieldsHTML = `
+          <div class="pi-fields">
+            <div><label>Item Name</label><input type="text" value="${curName.replace(/"/g,'&quot;')}" data-field="name"></div>
+            <div><label>Description</label><input type="text" value="${curDesc.replace(/"/g,'&quot;')}" data-field="desc"></div>
+            <div class="pi-single-row">
+              <div><label>Price (\u20B9)</label><input type="number" min="0" value="${p}" data-field="price"></div>
+            </div>
+          </div>`;
+      }
+      card.innerHTML = `
+        <div class="pi-header">
+          <div class="pi-name"><div class="${item.veg?'vdot':'nvdot'}"></div>${item.name} <span class="pi-id">${item.id}</span></div>
+          <div class="pi-actions">
+            ${isChanged ? '<button class="btn-reset" onclick="resetPrice(\''+item.id+'\')"><i class="fa fa-undo"></i> Reset</button>' : ''}
+            <button class="btn-save-item" onclick="savePriceItem(\''+item.id+'\')"><i class="fa fa-check"></i> Save</button>
+          </div>
+        </div>
+        ${fieldsHTML}`;
+      sec.appendChild(card);
+    });
+    area.appendChild(sec);
+  });
+  document.getElementById('priceCount').textContent = changed > 0 ? changed + ' of ' + total + ' items modified' : total + ' items \u2014 no changes yet';
+}
+
+function gatherFields(id){
+  const card = document.getElementById('pic-'+id);
+  if(!card) return null;
+  const inputs = card.querySelectorAll('.pi-fields input');
+  const data = {};
+  inputs.forEach(inp=>{
+    const field = inp.dataset.field;
+    if(field==='name'||field==='desc') data[field] = inp.value.trim();
+    else data[field] = parseFloat(inp.value) || 0;
+  });
+  return data;
+}
+
+function savePriceItem(id){
+  const data = gatherFields(id);
+  if(!data) return;
+  priceOverrides[id] = data;
+  localStorage.setItem('bh_prices', JSON.stringify(priceOverrides));
+  toast('Price saved for ' + data.name);
+  renderPriceEditor(document.querySelector('#tab-prices .menu-search-bar input').value);
+}
+
+function saveAllPrices(){
+  document.querySelectorAll('.price-item-card').forEach(card=>{
+    const id = card.id.replace('pic-','');
+    const data = gatherFields(id);
+    if(data) priceOverrides[id] = data;
+  });
+  localStorage.setItem('bh_prices', JSON.stringify(priceOverrides));
+  toast('All changes saved!');
+  renderPriceEditor(document.querySelector('#tab-prices .menu-search-bar input').value);
+}
+
+function resetPrice(id){
+  delete priceOverrides[id];
+  localStorage.setItem('bh_prices', JSON.stringify(priceOverrides));
+  toast('Reset to default');
+  renderPriceEditor(document.querySelector('#tab-prices .menu-search-bar input').value);
+}
+
+function resetAllPrices(){
+  if(!confirm('Reset ALL prices to defaults? This cannot be undone.')) return;
+  priceOverrides = {};
+  localStorage.setItem('bh_prices', JSON.stringify(priceOverrides));
+  toast('All prices reset to default');
+  renderPriceEditor(document.querySelector('#tab-prices .menu-search-bar input').value);
+}
+
 /* TOAST */
 function toast(msg){
   const t = document.getElementById('toast');
@@ -557,6 +720,7 @@ function init(){
   renderTemplates();
   renderActiveOffers();
   renderMenu();
+  renderPriceEditor();
 }
 </script>
 </body>
