@@ -890,10 +890,27 @@ function closeCart(){ document.getElementById('cartOverlay').classList.remove('o
 function clearCart(){ if(confirm('Clear your cart?')){ cart={}; saveCart(); updateCartUI(); renderCategoryItems(); } }
 
 /* ─── COUPON ─── */
-const COUPONS = {HUNGRY20:20, WELCOME10:10, FAMILY15:15};
+// Load coupons from localStorage (managed in dashboard)
+const COUPONS = {};
+try {
+  const savedCoupons = JSON.parse(localStorage.getItem('bh_coupons') || '[]');
+  savedCoupons.forEach(c => { COUPONS[c.code] = c.discount; });
+} catch(e) {}
+
+// Default coupons if none exist
+if (!Object.keys(COUPONS).length) {
+  COUPONS['HUNGRY20'] = 20;
+  COUPONS['WELCOME10'] = 10;
+  COUPONS['FAMILY15'] = 15;
+}
+
 function applyCoupon(){
   const code = document.getElementById('couponInput').value.trim().toUpperCase();
-  if(COUPONS[code]){ discount=COUPONS[code]; updateCartUI(); showToast(discount+'% off applied!'); }
+  if(COUPONS[code]){ 
+    discount=COUPONS[code]; 
+    updateCartUI(); 
+    showToast(discount+'% off applied!'); 
+  }
   else { showToast('Invalid code. Try HUNGRY20'); }
 }
 
