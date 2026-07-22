@@ -384,7 +384,7 @@ img{display:block;max-width:100%}
 </button>
 
 <!-- WA FLOAT -->
-<a href="https://wa.me/919XXXXXXXXX?text=Hi!%20I'd%20like%20to%20order" class="wa-float" target="_blank" title="Order on WhatsApp">
+<a href="https://wa.me/8317778612?text=Hi!%20I'd%20like%20to%20order" class="wa-float" target="_blank" title="Order on WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -392,7 +392,7 @@ img{display:block;max-width:100%}
 <div class="toast-msg" id="toastMsg"></div>
 
 <script>
-const WA = '919XXXXXXXXX';
+const WA = '8317778612';
 
 /* ─── MENU DATA ─── */
 const CATS = [
@@ -445,7 +445,7 @@ const MENU = {
     {id:'fr-bir',name:'Special Chicken Biryani',desc:'Aromatic basmati biryani with tender chicken',veg:false,price:300,tags:['bestseller']},
   ]},
   chinese:{label:'Chinese',items:[
-    {id:'ch-vm',name:'Veg Manchurian',desc:'Crispy vegetable balls in tangy Manchurian gravy',veg:true,price:180,tags:['bestseller']},
+    {id:'ch-vm',name:'Veg Manchurian',desc:'Crispy vegetable balls in tangy Manchurian gravy',veg:true,half:90,full:180,tags:['bestseller']},
     {id:'ch-pm',name:'Paneer Manchurian',desc:'Paneer cubes in spicy Manchurian sauce',veg:true,price:220,tags:[]},
     {id:'ch-cm',name:'Chicken Manchurian',desc:'Chicken in spicy Manchurian gravy',veg:false,price:220,tags:[]},
     {id:'ch-pc',name:'Paneer Chilli',desc:'Crispy paneer in fiery chilli-garlic sauce',veg:true,price:180,tags:['spicy','bestseller']},
@@ -850,8 +850,7 @@ function updateCartUI(){
 
   const discAmt = Math.round(subtotal * discount / 100);
   const delFee = orderType==='delivery' ? (subtotal>=299 ? 0 : 30) : 0;
-  const gst = Math.round((subtotal - discAmt + delFee) * 0.05);
-  const grand = subtotal - discAmt + delFee + gst;
+  const grand = subtotal - discAmt + delFee;
 
   document.getElementById('cartFoot').innerHTML = `
     <div class="order-type">
@@ -861,7 +860,6 @@ function updateCartUI(){
     <div class="bill-row"><span>Subtotal</span><span>₹${subtotal}</span></div>
     ${discAmt ? `<div class="bill-row disc"><span>Discount (${discount}%)</span><span>−₹${discAmt}</span></div>` : ''}
     ${orderType==='delivery' ? `<div class="bill-row"><span>Delivery Fee</span><span>${delFee===0?'<span style="color:var(--green)">FREE</span>':'₹'+delFee}</span></div>` : ''}
-    <div class="bill-row"><span>GST (5%)</span><span>₹${gst}</span></div>
     <div class="bill-row total"><span>Total</span><span class="amt">₹${grand}</span></div>
     <button class="btn-wa" onclick="checkout(${grand})"><i class="fab fa-whatsapp fa-lg"></i> Order via WhatsApp</button>
     <button class="btn-clear" onclick="clearCart()"><i class="fa fa-trash"></i> Clear Cart</button>

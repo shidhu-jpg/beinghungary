@@ -336,7 +336,7 @@ const DEFAULT_MENU = {
     {id:'fr-bir',name:'Special Chicken Biryani',desc:'Aromatic basmati biryani with tender chicken',veg:false,price:300},
   ]},
   chinese:{label:'Chinese',items:[
-    {id:'ch-vm',name:'Veg Manchurian',desc:'Crispy vegetable balls in tangy Manchurian gravy',veg:true,price:180},
+    {id:'ch-vm',name:'Veg Manchurian',desc:'Crispy vegetable balls in tangy Manchurian gravy',veg:true,half:90,full:180},
     {id:'ch-pm',name:'Paneer Manchurian',desc:'Paneer cubes in spicy Manchurian sauce',veg:true,price:220},
     {id:'ch-cm',name:'Chicken Manchurian',desc:'Chicken in spicy Manchurian gravy',veg:false,price:220},
     {id:'ch-pc',name:'Paneer Chilli',desc:'Crispy paneer in fiery chilli-garlic sauce',veg:true,price:180},
@@ -499,7 +499,13 @@ function updateItem(index, field, value) {
     if (value === 0) value = 0;
   }
 
-  items[index][field] = value;
+  // If value is undefined, remove the property entirely
+  if (value === undefined) {
+    delete items[index][field];
+  } else {
+    items[index][field] = value;
+  }
+  
   updateStats();
   autoSave();
 }
@@ -594,7 +600,16 @@ function autoSave() {
 // Save to localStorage
 function saveToStorage() {
   localStorage.setItem('bh_menu_editor', JSON.stringify(menuData));
-  localStorage.setItem('bh_prices', JSON.stringify(menuData));
+  
+  // Flatten menu data for menu.html to consume
+  const flatOverrides = {};
+  Object.values(menuData).forEach(cat => {
+    cat.items.forEach(item => {
+      flatOverrides[item.id] = item;
+    });
+  });
+  localStorage.setItem('bh_prices', JSON.stringify(flatOverrides));
+  
   updateStats();
 }
 
