@@ -385,7 +385,7 @@ img{display:block;max-width:100%}
 
 <!-- WA FLOAT -->
 <a href="https://wa.me/919XXXXXXXXX?text=Hi!%20I'd%20like%20to%20order" class="wa-float" target="_blank" title="Order on WhatsApp">
-  <i class="fab fa-whatsapp"></i>ce of items ca
+  <i class="fab fa-whatsapp"></i>
 </a>
 
 <!-- TOAST -->
@@ -501,9 +501,33 @@ const MENU = {
 };
 
 /* ─── APPLY PRICE OVERRIDES FROM DASHBOARD ─── */
-(function(){
+async function loadPriceOverrides() {
   try {
-    const overrides = JSON.parse(localStorage.getItem('bh_prices') || '{}');
+    // First try localStorage
+    let overrides = JSON.parse(localStorage.getItem('bh_prices') || '{}');
+    
+    // If empty, try loading from cloud
+    if(!Object.keys(overrides).length) {
+      const cloudBinId = localStorage.getItem('bh_cloud_bin_id');
+      if(cloudBinId) {
+        try {
+          const response = await fetch('https://api.jsonbin.io/v3/b/' + cloudBinId, {
+            headers: {
+              'X-Master-Key': '$2a$10$ySfJhGhyDZw5q.8LjNF0.eb99MfaixD6ZlRBR4vl1wpKxpp9oO3Rq'
+            }
+          });
+          if(response.ok) {
+            const result = await response.json();
+            overrides = result.record;
+            // Save to localStorage for faster access next time
+            localStorage.setItem('bh_prices', JSON.stringify(overrides));
+          }
+        } catch(e) {
+          console.error('Cloud load error:', e);
+        }
+      }
+    }
+    
     if(!Object.keys(overrides).length) return;
     Object.values(MENU).forEach(cat => {
       cat.items.forEach(item => {
@@ -517,7 +541,7 @@ const MENU = {
       });
     });
   } catch(e){}
-})();
+}
 
 /* ─── STATE ─── */
 let cart = JSON.parse(localStorage.getItem('bh_cart') || '{}');
@@ -608,7 +632,8 @@ function buildItemCard(item){
   ).join('');
   const mark = item.veg ? '<div class="veg-mark"></div>' : '<div class="nveg-mark"></div>';
 
-  if(item.half !== undefined){
+  // Check if item has half/full pricing
+  if(item.half !== undefined && item.full !== undefined){
     const qH = cart[item.id+'-H']?.qty || 0;
     const qF = cart[item.id+'-F']?.qty || 0;
     return `<div class="item-card" id="card-${item.id}">
@@ -914,19 +939,26 @@ window.addEventListener('popstate', e => {
 });
 
 /* ─── INIT ─── */
-buildLanding();
-const params = new URLSearchParams(window.location.search);
-const initCat = params.get('cat');
-if(initCat && MENU[initCat]){
-  document.getElementById('categoryView').classList.add('active');
-  currentCat = initCat;
-  const cat = MENU[initCat];
-  document.getElementById('catTitle').innerHTML = cat.label;
-  renderCategoryItems();
-} else {
-  document.getElementById('landingView').classList.add('active');
+async function initMenu() {
+  // Load price overrides from cloud/localStorage
+  await loadPriceOverrides();
+  
+  buildLanding();
+  const params = new URLSearchParams(window.location.search);
+  const initCat = params.get('cat');
+  if(initCat && MENU[initCat]){
+    document.getElementById('categoryView').classList.add('active');
+    currentCat = initCat;
+    const cat = MENU[initCat];
+    document.getElementById('catTitle').innerHTML = cat.label;
+    renderCategoryItems();
+  } else {
+    document.getElementById('landingView').classList.add('active');
+  }
+  updateCartUI();
 }
-updateCartUI();
+
+initMenu();
 </script>
 </body>
 </html>

@@ -144,11 +144,18 @@ h1,h2,h3{font-family:'Playfair Display',Georgia,serif}
   position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);
   padding:16px clamp(20px,5vw,90px);box-shadow:0 -4px 20px rgba(0,0,0,.08);
   display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
-  z-index:100;
+  z-index:100;transition:transform .3s ease;
 }
+.save-section.collapsed{transform:translateY(100%)}
+.save-toggle{
+  position:fixed;bottom:0;left:0;right:0;background:var(--gold);color:#fff;
+  padding:12px;text-align:center;cursor:pointer;z-index:99;font-size:13px;
+  font-weight:600;display:none;box-shadow:0 -2px 10px rgba(0,0,0,.1);
+}
+.save-toggle:hover{background:var(--gold2)}
 .save-info{font-size:13px;color:var(--muted)}
 .save-info strong{color:var(--gold)}
-.save-btns{display:flex;gap:10px}
+.save-btns{display:flex;gap:10px;flex-wrap:wrap}
 .btn{
   padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;
   cursor:pointer;transition:all .2s;border:none;font-family:'Inter',sans-serif;
@@ -181,12 +188,14 @@ h1,h2,h3{font-family:'Playfair Display',Georgia,serif}
 /* RESPONSIVE */
 @media(max-width:900px){
   .navbar{padding:0 16px}
-  .table-header,.table-row{grid-template-columns:2fr 1fr 1fr auto;font-size:12px}
-  .table-header>div:nth-child(4),.table-header>div:nth-child(5),
-  .table-row>div:nth-child(4),.table-row>div:nth-child(5){display:none}
+  .table-header,.table-row{font-size:12px}
+  .items-table{overflow-x:auto}
+  .table-header,.table-row{min-width:700px}
   .save-section{flex-direction:column;align-items:stretch}
   .save-btns{flex-direction:column}
   .btn{width:100%}
+  .save-toggle{display:block}
+  .dash-content{padding-bottom:80px}
 }
 </style>
 </head>
@@ -241,8 +250,13 @@ h1,h2,h3{font-family:'Playfair Display',Georgia,serif}
   </button>
 </div>
 
+<!-- SAVE TOGGLE (Mobile) -->
+<div class="save-toggle" id="saveToggle" onclick="toggleSaveSection()">
+  <i class="fa fa-chevron-up"></i> Show Save Options
+</div>
+
 <!-- SAVE SECTION -->
-<div class="save-section">
+<div class="save-section" id="saveSection">
   <div class="save-info">
     <i class="fa fa-info-circle"></i> Changes are saved to browser storage. 
     <strong>Clear browser data will reset changes.</strong>
@@ -713,6 +727,21 @@ async function loadFromCloud() {
   return false;
 }
 
+// Toggle save section (for mobile)
+function toggleSaveSection() {
+  const section = document.getElementById('saveSection');
+  const toggle = document.getElementById('saveToggle');
+  const isCollapsed = section.classList.contains('collapsed');
+  
+  if (isCollapsed) {
+    section.classList.remove('collapsed');
+    toggle.innerHTML = '<i class="fa fa-chevron-up"></i> Hide Save Options';
+  } else {
+    section.classList.add('collapsed');
+    toggle.innerHTML = '<i class="fa fa-chevron-down"></i> Show Save Options';
+  }
+}
+
 // Show toast notification
 function showToast(message, isError = false) {
   const toast = document.getElementById('toast');
@@ -728,6 +757,12 @@ function showToast(message, isError = false) {
 
 // Initialize on load
 init();
+
+// Auto-collapse save section on mobile
+if (window.innerWidth <= 900) {
+  document.getElementById('saveSection').classList.add('collapsed');
+  document.getElementById('saveToggle').style.display = 'block';
+}
 
 // Try to load from cloud on startup
 (async () => {
