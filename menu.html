@@ -197,6 +197,15 @@ img{display:block;max-width:100%}
 .pc-add{padding:0 10px;height:26px;background:var(--gold);color:#fff;font-size:12px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;transition:background .15s}
 .pc-add:hover{background:var(--gold2)}
 
+/* cheese option */
+.cheese-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.cheese-opt{border:1px solid var(--border);border-radius:10px;padding:8px 12px;background:var(--cream2);min-width:88px;cursor:pointer;transition:all .2s}
+.cheese-opt:hover{border-color:var(--gold)}
+.cheese-opt.selected{border-color:var(--gold);background:var(--gold-lt)}
+.cheese-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:3px}
+.cheese-price{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:7px}
+.cheese-ctrl{display:flex;align-items:center;border:1.5px solid var(--gold);border-radius:7px;overflow:hidden;width:fit-content}
+
 .no-items{text-align:center;padding:80px 20px;color:var(--muted)}
 .no-items i{font-size:44px;display:block;margin-bottom:14px;opacity:.3;color:var(--gold)}
 
@@ -376,7 +385,7 @@ img{display:block;max-width:100%}
 
 <!-- WA FLOAT -->
 <a href="https://wa.me/919XXXXXXXXX?text=Hi!%20I'd%20like%20to%20order" class="wa-float" target="_blank" title="Order on WhatsApp">
-  <i class="fab fa-whatsapp"></i>
+  <i class="fab fa-whatsapp"></i>ce of items ca
 </a>
 
 <!-- TOAST -->
@@ -389,7 +398,7 @@ const WA = '919XXXXXXXXX';
 const CATS = [
   {key:'noodles',  label:'Noodles',     img:'images/chowemin.jpeg',sub:'Veg · Paneer · Egg · Chicken', count:6},
   {key:'rolls',    label:'Rolls',       img:'images/rool.jpeg',    sub:'Veg · Paneer · Chicken · Egg', count:10},
-  {key:'burgers',  label:'Burgers',     img:'images/burger.jpeg',  sub:'Aloo Tikki · Paneer · Chicken', count:7},
+  {key:'burgers',  label:'Burgers',     img:'images/burger.jpeg',  sub:'Aloo Tikki · Paneer · Chicken · Bun Maska', count:13},
   {key:'friedrice',label:'Fried Rice',  img:'images/fryrice.jpeg', sub:'Veg · Egg · Chicken · Biryani', count:6},
   {key:'chinese',  label:'Chinese',     img:'images/chowemin.jpeg',sub:'Manchurian · Chilli · Pakoda', count:13},
   {key:'momos',    label:'Momos',       img:'images/momo4.jpeg',   sub:'Steam · Fry · Afghani · Kurkure', count:8},
@@ -404,12 +413,12 @@ const MENU = {
     {id:'nod-v',name:'Veg Noodles',desc:'Classic Hakka noodles with fresh vegetables',veg:true,price:80,tags:[]},
     {id:'nod-p',name:'Paneer Noodles',desc:'Noodles tossed with soft paneer cubes & veggies',veg:true,price:110,tags:[]},
     {id:'nod-e',name:'Egg Noodles',desc:'Stir-fried noodles with scrambled egg & vegetables',veg:false,price:100,tags:[]},
-    {id:'nod-vh',name:'Veg Hakka Noodles',desc:'Authentic Hakka style noodles with soy & veggies',veg:true,price:100,tags:[]},
+    {id:'nod-vh',name:'Veg Hakka Noodles',desc:'Authentic Hakka style noodles with soy & veggies',veg:true,price:120,tags:[]},
     {id:'nod-c',name:'Chicken Noodles',desc:'Noodles with spiced chicken strips & bell peppers',veg:false,price:140,tags:['bestseller']},
     {id:'nod-cg',name:'Chilly Garlic Noodles',desc:'Fiery noodles with chilli, garlic & spring onions',veg:true,price:110,tags:['spicy']},
   ]},
   rolls:{label:'Rolls',items:[
-    {id:'rol-se',name:'Single Egg Roll',desc:'Crispy paratha with one egg & fresh veggies',veg:false,price:30,tags:[]},
+    {id:'rol-se',name:'Single Egg Roll',desc:'Crispy paratha with one egg & fresh veggies',veg:false,price:35,tags:[]},
     {id:'rol-de',name:'Double Egg Roll',desc:'Double egg stuffed in buttery layered paratha',veg:false,price:40,tags:[]},
     {id:'rol-p',name:'Paneer Roll',desc:'Soft paneer with onion, chutney & spices',veg:true,price:70,tags:[]},
     {id:'rol-ep',name:'Egg Paneer Roll',desc:'Best of both — egg & paneer in one roll',veg:false,price:90,tags:[]},
@@ -420,13 +429,12 @@ const MENU = {
     {id:'rol-pp',name:'Plain Paratha',desc:'Soft whole wheat paratha',veg:true,price:20,tags:[]},
   ]},
   burgers:{label:'Burgers',items:[
-    {id:'bur-at',name:'Aloo Tikki Burger',desc:'Crispy aloo tikki with tangy chutney & veggies',veg:true,half:70,full:90,tags:['bestseller']},
-    {id:'bur-pn',name:'Paneer Burger',desc:'Grilled paneer patty with mayo & lettuce',veg:true,half:100,full:120,tags:[]},
-    {id:'bur-ck',name:'Chicken Burger',desc:'Juicy chicken patty with cheese & mayo',veg:false,half:120,full:140,tags:['bestseller']},
-    {id:'bur-bm',name:'Bun Maska',desc:'Buttery soft bun with generous butter spread',veg:true,half:30,full:40,tags:[]},
-    {id:'bur-v',name:'Veg Burger',desc:'Mixed veg patty with sauce & fresh veggies',veg:true,half:90,full:110,tags:[]},
-    {id:'bur-spec',name:'Being Hungry Special Burger',desc:'Our signature loaded burger — double patty & cheese',veg:false,half:140,full:160,tags:['bestseller']},
-    {id:'bur-cr',name:'Crispy Burger',desc:'Extra crispy fried patty with special sauce',veg:false,half:150,full:170,tags:['new']},
+    {id:'bur-at',name:'Aloo Tikki Burger',desc:'Crispy aloo tikki with tangy chutney & veggies',veg:true,price:70,cheesePrice:20,tags:['bestseller']},
+    {id:'bur-pn',name:'Paneer Burger',desc:'Grilled paneer patty with mayo & lettuce',veg:true,price:100,cheesePrice:20,tags:[]},
+    {id:'bur-ck',name:'Chicken Burger',desc:'Juicy chicken patty with mayo',veg:false,price:120,cheesePrice:20,tags:['bestseller']},
+    {id:'bur-bm',name:'Bun Maska',desc:'Buttery soft bun with generous butter spread',veg:true,price:30,cheesePrice:10,tags:[]},
+    {id:'bur-spec',name:'Being Hungry Special Burger',desc:'Our signature loaded burger — double patty',veg:false,price:140,cheesePrice:20,tags:['bestseller']},
+    {id:'bur-cr',name:'Crispy Burger',desc:'Extra crispy fried patty with special sauce',veg:false,price:150,cheesePrice:20,tags:['new']},
   ]},
   friedrice:{label:'Fried Rice',items:[
     {id:'fr-v',name:'Veg Fried Rice',desc:'Wok-tossed rice with carrots, beans, peas & soy',veg:true,price:120,tags:[]},
@@ -448,7 +456,7 @@ const MENU = {
     {id:'ch-pp',name:'Paneer Pakoda',desc:'Crispy paneer fritters with chutney',veg:true,price:220,tags:[]},
     {id:'ch-cpb',name:'Chicken Pakoda (Bone)',desc:'Crispy chicken fritters with bone',veg:false,price:240,tags:[]},
     {id:'ch-cpbl',name:'Chicken Pakoda (Boneless)',desc:'Boneless crispy chicken fritters',veg:false,price:260,tags:[]},
-    {id:'ch-cl',name:'Chicken Lollipop',desc:'Spicy chicken lollipop — 5 pieces',veg:false,price:280,tags:['bestseller']},
+    {id:'ch-cl',name:'Chicken Lollipop',desc:'Spicy chicken lollipop — 5 pieces',veg:false,price:350,tags:['bestseller']},
   ]},
   momos:{label:'Momos',items:[
     {id:'momo-vs',name:'Veg Momo (Steam)',desc:'Soft steamed dumplings with spiced veg filling',veg:true,half:50,full:80,tags:[]},
@@ -625,6 +633,31 @@ function buildItemCard(item){
     </div>`;
   }
 
+  if(item.cheesePrice !== undefined){
+    const qNormal = cart[item.id]?.qty || 0;
+    const qCheese = cart[item.id+'-C']?.qty || 0;
+    return `<div class="item-card" id="card-${item.id}">
+      ${mark}
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-desc">${item.desc}</div>
+        ${tags ? `<div style="margin-top:5px">${tags}</div>` : ''}
+        <div class="cheese-options">
+          <div class="cheese-opt" id="cheese-opt-${item.id}-N" onclick="selectCheese('${item.id}',false)">
+            <div class="cheese-lbl">Without Cheese</div>
+            <div class="cheese-price">₹${item.price}</div>
+            <div id="ac-${item.id}">${cheeseCtrl(item.id,item.price,item.cheesePrice,false)}</div>
+          </div>
+          <div class="cheese-opt" id="cheese-opt-${item.id}-C" onclick="selectCheese('${item.id}',true)">
+            <div class="cheese-lbl">With Cheese</div>
+            <div class="cheese-price">₹${item.price + item.cheesePrice}</div>
+            <div id="ac-${item.id}-C">${cheeseCtrl(item.id,item.price,item.cheesePrice,true)}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
   const q = cart[item.id]?.qty || 0;
   return `<div class="item-card" id="card-${item.id}">
     ${mark}
@@ -649,6 +682,17 @@ function addCtrl(id, name, price, q){
   </div>`;
 }
 
+function cheeseCtrl(id, basePrice, cheesePrice, hasCheese){
+  const price = hasCheese ? basePrice + cheesePrice : basePrice;
+  const q = cart[id]?.qty || 0;
+  if(q === 0) return `<div class="cheese-ctrl"><button class="pc-add" onclick="cheeseAdd('${id}',${basePrice},${cheesePrice},${hasCheese})">Add</button></div>`;
+  return `<div class="cheese-ctrl">
+    <button class="pc-btn" onclick="cheeseChange('${id}',${basePrice},${cheesePrice},${hasCheese},-1)">−</button>
+    <span class="pc-num">${q}</span>
+    <button class="pc-btn" onclick="cheeseChange('${id}',${basePrice},${cheesePrice},${hasCheese},1)">+</button>
+  </div>`;
+}
+
 function portionCtrl(id, size, price, q){
   const key = id+'-'+size;
   if(q === 0) return `<div class="portion-ctrl"><button class="pc-add" onclick="portionChange('${id}','${size}',${price},1)">Add</button></div>`;
@@ -667,6 +711,54 @@ function simpleAdd(id, name, price){
   const el = document.getElementById('ac-' + id);
   if(el) el.innerHTML = addCtrl(id, name, price, 1);
   updateCartUI(); showToast(name + ' added!');
+}
+
+function selectCheese(id, hasCheese){
+  const item = findItem(id);
+  if(!item) return;
+  const price = hasCheese ? item.price + item.cheesePrice : item.price;
+  const name = hasCheese ? item.name + ' with Cheese' : item.name;
+  const cartId = hasCheese ? id + '-C' : id;
+  
+  // Remove other option if selected
+  if(hasCheese && cart[id]) delete cart[id];
+  if(!hasCheese && cart[id+'-C']) delete cart[id+'-C'];
+  
+  // Add current selection
+  if(!cart[cartId]) {
+    cart[cartId] = {name, price, qty:1};
+    saveCart();
+    updateCartUI();
+    renderCategoryItems();
+    showToast(name + ' added!');
+  }
+}
+
+function cheeseAdd(id, basePrice, cheesePrice, hasCheese){
+  const price = hasCheese ? basePrice + cheesePrice : basePrice;
+  const item = findItem(id);
+  const name = hasCheese ? item.name + ' with Cheese' : item.name;
+  const cartId = hasCheese ? id + '-C' : id;
+  
+  cart[cartId] = {name, price, qty:1};
+  saveCart();
+  updateCartUI();
+  renderCategoryItems();
+  showToast(name + ' added!');
+}
+
+function cheeseChange(id, basePrice, cheesePrice, hasCheese, delta){
+  const cartId = hasCheese ? id + '-C' : id;
+  const price = hasCheese ? basePrice + cheesePrice : basePrice;
+  const item = findItem(id);
+  const name = hasCheese ? item.name + ' with Cheese' : item.name;
+  
+  if(!cart[cartId]) cart[cartId] = {name, price, qty:0};
+  cart[cartId].qty = Math.max(0, cart[cartId].qty + delta);
+  if(cart[cartId].qty === 0) delete cart[cartId];
+  saveCart();
+  updateCartUI();
+  renderCategoryItems();
 }
 
 function simpleChange(id, name, price, delta){
