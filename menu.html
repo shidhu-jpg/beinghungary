@@ -286,7 +286,7 @@ img{display:block;max-width:100%}
 <!-- NAVBAR -->
 <nav class="navbar">
   <a href="index.html" class="nav-logo">
-    <img src="images/WhatsApp%20Image%202026-06-30%20at%2001.13.29.jpeg" alt="Being Hungry">
+    <img src="images/logo.jpeg" alt="Being Hungry">
     <div>
       <span class="name">Being Hungry</span>
       <span class="tag">A Family Cafe & Restro</span>
@@ -861,7 +861,7 @@ function updateCartUI(){
     ${discAmt ? `<div class="bill-row disc"><span>Discount (${discount}%)</span><span>−₹${discAmt}</span></div>` : ''}
     ${orderType==='delivery' ? `<div class="bill-row"><span>Delivery Fee</span><span>${delFee===0?'<span style="color:var(--green)">FREE</span>':'₹'+delFee}</span></div>` : ''}
     <div class="bill-row total"><span>Total</span><span class="amt">₹${grand}</span></div>
-    <button class="btn-wa" onclick="checkout(${grand})"><i class="fab fa-whatsapp fa-lg"></i> Order via WhatsApp</button>
+    <button class="btn-wa" onclick="checkout(${grand})"><i class="fas fa-shopping-cart"></i> Checkout</button>
     <button class="btn-clear" onclick="clearCart()"><i class="fa fa-trash"></i> Clear Cart</button>
   `;
 }
@@ -916,15 +916,10 @@ function applyCoupon(){
 
 /* ─── CHECKOUT ─── */
 function checkout(grand){
-  const entries = Object.entries(cart);
-  if(!entries.length){ showToast('Cart is empty!'); return; }
-  let msg = '🍽️ *Order — Being Hungry*\n\n';
-  entries.forEach(([,{name,qty,price}]) => { msg += `• ${name} × ${qty} = ₹${price*qty}\n`; });
-  msg += '\n';
-  if(discount) msg += `🏷️ Coupon: ${discount}% off\n`;
-  msg += `📦 ${orderType==='delivery'?'Home Delivery':'Pickup'}\n`;
-  msg += `💰 *Total: ₹${grand}*\n\nPlease confirm my order!`;
-  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+  // Save order type to localStorage for checkout page
+  localStorage.setItem('bh_order_type', orderType);
+  // Redirect to checkout page
+  window.location.href = 'checkout.html';
 }
 
 /* ─── VEG FILTER ─── */
